@@ -65,7 +65,7 @@
   const INITIAL_PRODUCT_LIMIT = 6;
   const GEMINI_API_KEY = "AIzaSyBS3Qg0-Sh_IvjlxogfYr_WjB1sI1sE9Vw";
   const ZARA_ICON = "https://cdn-icons-png.flaticon.com/512/4140/4140047.png";
-  const APK_DOWNLOAD_URL = "./Ethniqattire.apk"; // Make sure your APK file is named exactly this
+  const APK_DOWNLOAD_URL = "./Ethniqattire.apk";
 
   // --- PAYMENT CONFIG ---
   const UPI_ID = "stk-7890000144@okbizaxis"; // Your UPI ID
@@ -1593,19 +1593,19 @@ const BrandStory = ({ appMode }) => {
 
   const DownloadAppBanner = ({ isPrive, onClose }) => {
       return (
-          <div className={`fixed bottom-20 md:bottom-8 left-4 right-4 md:left-auto md:right-auto md:w-96 z-[85] p-4 rounded-xl shadow-2xl flex items-center justify-between animate-slide-up border ${isPrive ? 'bg-navy-900 border-gold-600/50 text-white' : 'bg-white border-gray-200 text-gray-900'}`}>
+          <div className={`fixed top-16 md:top-auto md:bottom-8 left-0 md:left-32 right-0 md:right-auto md:w-96 z-[40] p-3 md:rounded-xl shadow-xl flex items-center justify-between animate-slide-up border-b md:border ${isPrive ? 'bg-navy-900/95 border-gold-600/50 text-white backdrop-blur-md' : 'bg-white/95 border-gray-200 text-gray-900 backdrop-blur-md'}`}>
               <div className="flex items-center gap-3">
-                  <div className={`p-2 rounded-lg ${isPrive ? 'bg-navy-950' : 'bg-gray-100'}`}>
-                      <IconAndroid className={`w-6 h-6 ${isPrive ? 'text-gold-500' : 'text-green-600'}`} />
+                  <div className={`p-1 rounded-lg ${isPrive ? 'bg-navy-950' : 'bg-white border border-gray-100'}`}>
+                      <img src={isPrive ? PRIVE_LOGO_URL : REGULAR_LOGO_URL} className="w-8 h-8 object-contain rounded" alt="App Logo" />
                   </div>
                   <div>
-                      <p className="text-sm font-bold">Download App</p>
-                      <p className={`text-[10px] ${isPrive ? 'text-gray-400' : 'text-gray-500'}`}>Get the best experience.</p>
+                      <p className="text-xs font-bold uppercase tracking-wider">Download App</p>
+                      <p className={`text-[10px] ${isPrive ? 'text-gray-400' : 'text-gray-500'}`}>Better experience & exclusive offers.</p>
                   </div>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-3">
+                  <a href={APK_DOWNLOAD_URL} download className={`px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider shadow-lg ${isPrive ? 'bg-gold-600 text-black' : 'bg-navy-900 text-white'}`}>Install</a>
                   <button onClick={onClose} className="p-1 opacity-50 hover:opacity-100"><IconClose /></button>
-                  <a href={APK_DOWNLOAD_URL} download className={`px-3 py-2 rounded-lg text-[10px] font-bold uppercase tracking-wider ${isPrive ? 'bg-gold-600 text-black' : 'bg-navy-900 text-white'}`}>Install</a>
               </div>
           </div>
       );
