@@ -65,6 +65,7 @@
   const INITIAL_PRODUCT_LIMIT = 6;
   const GEMINI_API_KEY = "AIzaSyBS3Qg0-Sh_IvjlxogfYr_WjB1sI1sE9Vw";
   const ZARA_ICON = "https://cdn-icons-png.flaticon.com/512/4140/4140047.png";
+  const APK_DOWNLOAD_URL = "./Ethniqattire.apk"; // Make sure your APK file is named exactly this
 
   // --- PAYMENT CONFIG ---
   const UPI_ID = "stk-7890000144@okbizaxis"; // Your UPI ID
@@ -154,6 +155,7 @@ const IconWarning = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-8
   const IconStar = ({ filled, onClick }) => ( <svg onClick={onClick} className={`w-4 h-4 cursor-pointer ${filled ? 'text-yellow-400 fill-current' : 'text-gray-300'}`} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"> <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /> </svg> );
   const IconShare = ({className}) => <svg xmlns="http://www.w3.org/2000/svg" className={className || "h-6 w-6"} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" /></svg>;
   const IconLantern = ({className}) => <svg xmlns="http://www.w3.org/2000/svg" className={className || "w-6 h-6"} viewBox="0 0 512 512" fill="currentColor"><path d="M256 0C238.3 0 224 14.3 224 32V48H208C181.5 48 160 69.5 160 96V128H144C117.5 128 96 149.5 96 176V368C96 394.5 117.5 416 144 416H176V448C176 465.7 190.3 480 208 480H304C321.7 480 336 465.7 336 448V416H368C394.5 416 416 394.5 416 368V176C416 149.5 394.5 128 368 128H352V96C352 69.5 330.5 48 304 48H288V32C288 14.3 273.7 0 256 0zM208 96H304V128H208V96zM144 176H368V368H144V176z"/></svg>;
+  const IconAndroid = ({className}) => <svg xmlns="http://www.w3.org/2000/svg" className={className || "h-6 w-6"} viewBox="0 0 24 24" fill="currentColor"><path d="M17.523 15.3414C17.523 16.7239 16.4035 17.8434 15.021 17.8434C13.6385 17.8434 12.519 16.7239 12.519 15.3414C12.519 13.9589 13.6385 12.8394 15.021 12.8394C16.4035 12.8394 17.523 13.9589 17.523 15.3414ZM7.483 15.3414C7.483 16.7239 6.3635 17.8434 4.981 17.8434C3.5985 17.8434 2.479 16.7239 2.479 15.3414C2.479 13.9589 3.5985 12.8394 4.981 12.8394C6.3635 12.8394 7.483 13.9589 7.483 15.3414ZM18.568 6.7044L20.463 3.4204C20.666 3.0694 20.545 2.6224 20.194 2.4194C19.843 2.2164 19.396 2.3374 19.193 2.6884L17.256 6.0434C15.666 5.3164 13.886 4.9104 12.001 4.9104C10.116 4.9104 8.336 5.3164 6.746 6.0434L4.809 2.6884C4.606 2.3374 4.159 2.2164 3.808 2.4194C3.457 2.6224 3.336 3.0694 3.539 3.4204L5.434 6.7044C2.359 8.3844 0.296 11.5344 0 15.1444H24C23.704 11.5344 21.641 8.3844 18.568 6.7044Z" /></svg>;
 
   // --- UTILITY COMPONENTS ---
   const NotificationToast = ({ message, isVisible, isPrive }) => {
@@ -1589,6 +1591,26 @@ const BrandStory = ({ appMode }) => {
       );
   };
 
+  const DownloadAppBanner = ({ isPrive, onClose }) => {
+      return (
+          <div className={`fixed bottom-20 md:bottom-8 left-4 right-4 md:left-auto md:right-auto md:w-96 z-[85] p-4 rounded-xl shadow-2xl flex items-center justify-between animate-slide-up border ${isPrive ? 'bg-navy-900 border-gold-600/50 text-white' : 'bg-white border-gray-200 text-gray-900'}`}>
+              <div className="flex items-center gap-3">
+                  <div className={`p-2 rounded-lg ${isPrive ? 'bg-navy-950' : 'bg-gray-100'}`}>
+                      <IconAndroid className={`w-6 h-6 ${isPrive ? 'text-gold-500' : 'text-green-600'}`} />
+                  </div>
+                  <div>
+                      <p className="text-sm font-bold">Download App</p>
+                      <p className={`text-[10px] ${isPrive ? 'text-gray-400' : 'text-gray-500'}`}>Get the best experience.</p>
+                  </div>
+              </div>
+              <div className="flex items-center gap-2">
+                  <button onClick={onClose} className="p-1 opacity-50 hover:opacity-100"><IconClose /></button>
+                  <a href={APK_DOWNLOAD_URL} download className={`px-3 py-2 rounded-lg text-[10px] font-bold uppercase tracking-wider ${isPrive ? 'bg-gold-600 text-black' : 'bg-navy-900 text-white'}`}>Install</a>
+              </div>
+          </div>
+      );
+  };
+
   const RecentlyViewedSection = ({ products, onOpen, isPrive }) => {
       if (!products || products.length === 0) return null;
       return (
@@ -1713,6 +1735,7 @@ const BrandStory = ({ appMode }) => {
     const [legalModal, setLegalModal] = useState({ isOpen: false, title: '', content: '' });
     const [showRamadanModal, setShowRamadanModal] = useState(false);
     const [showEidiModal, setShowEidiModal] = useState(false);
+    const [showDownloadBanner, setShowDownloadBanner] = useState(true);
     const [recentlyViewed, setRecentlyViewed] = useState([]);
 
     // --- USER DATA FETCH/SAVE LOGIC ---
@@ -2819,11 +2842,13 @@ const BrandStory = ({ appMode }) => {
                   <button onClick={() => openLegal('shipping')} className="hover:text-white transition">Shipping Policy</button>
                   <button onClick={() => openLegal('returns')} className="hover:text-white transition">Returns & Exchange</button>
                   <button onClick={() => openLegal('terms')} className="hover:text-white transition">Terms of Service</button>
+                  <a href={APK_DOWNLOAD_URL} download className="hover:text-white transition text-gold-500">Download App</a>
               </div>
               <p className="opacity-50">&copy; 2025 Ethniq Attire Kolkata. All Rights Reserved.</p>
           </footer>
 
           {user && <AIChatAssistant user={user} isPrive={isPrive} products={products} userData={userData} onOpenProduct={handleOpenProduct} />}
+          {showDownloadBanner && <DownloadAppBanner isPrive={isPrive} onClose={() => setShowDownloadBanner(false)} />}
           <FloatingWhatsApp />
           <MobileBottomBar
               cartCount={cart.reduce((a,b)=>a+b.quantity,0)}
