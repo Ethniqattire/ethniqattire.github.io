@@ -1591,22 +1591,19 @@ const BrandStory = ({ appMode }) => {
       );
   };
 
-  const DownloadAppBanner = ({ isPrive, onClose }) => {
+  const DownloadAppBanner = ({ isPrive }) => {
       return (
-          <div className={`fixed top-16 md:top-auto md:bottom-8 left-0 md:left-32 right-0 md:right-auto md:w-96 z-[40] p-3 md:rounded-xl shadow-xl flex items-center justify-between animate-slide-up border-b md:border ${isPrive ? 'bg-navy-900/95 border-gold-600/50 text-white backdrop-blur-md' : 'bg-white/95 border-gray-200 text-gray-900 backdrop-blur-md'}`}>
-              <div className="flex items-center gap-3">
-                  <div className={`p-1 rounded-lg ${isPrive ? 'bg-navy-950' : 'bg-white border border-gray-100'}`}>
-                      <img src={isPrive ? PRIVE_LOGO_URL : REGULAR_LOGO_URL} className="w-8 h-8 object-contain rounded" alt="App Logo" />
+          <div className={`mx-auto mb-6 max-w-sm w-full p-3 rounded-xl shadow-md flex items-center justify-between border ${isPrive ? 'bg-navy-900 border-gold-600/50 text-white' : 'bg-white border-gray-200 text-gray-900'}`}>
+              <div className="flex items-center gap-3 text-left">
+                  <div className="p-1 rounded-lg bg-white border border-gray-100">
+                      <img src={REGULAR_LOGO_URL} className="w-10 h-10 object-contain rounded" alt="App Logo" />
                   </div>
                   <div>
                       <p className="text-xs font-bold uppercase tracking-wider">Download App</p>
                       <p className={`text-[10px] ${isPrive ? 'text-gray-400' : 'text-gray-500'}`}>Better experience & exclusive offers.</p>
                   </div>
               </div>
-              <div className="flex items-center gap-3">
-                  <a href={APK_DOWNLOAD_URL} download className={`px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider shadow-lg ${isPrive ? 'bg-gold-600 text-black' : 'bg-navy-900 text-white'}`}>Install</a>
-                  <button onClick={onClose} className="p-1 opacity-50 hover:opacity-100"><IconClose /></button>
-              </div>
+              <a href={APK_DOWNLOAD_URL} download className={`px-5 py-2 rounded-full text-[10px] font-bold uppercase tracking-wider shadow-lg ${isPrive ? 'bg-gold-600 text-black' : 'bg-navy-900 text-white'}`}>Install</a>
           </div>
       );
   };
@@ -1735,7 +1732,6 @@ const BrandStory = ({ appMode }) => {
     const [legalModal, setLegalModal] = useState({ isOpen: false, title: '', content: '' });
     const [showRamadanModal, setShowRamadanModal] = useState(false);
     const [showEidiModal, setShowEidiModal] = useState(false);
-    const [showDownloadBanner, setShowDownloadBanner] = useState(true);
     const [recentlyViewed, setRecentlyViewed] = useState([]);
 
     // --- USER DATA FETCH/SAVE LOGIC ---
@@ -2765,6 +2761,8 @@ const BrandStory = ({ appMode }) => {
                           <h2 className={`text-4xl font-serif font-bold mb-3 ${isPrive ? 'text-gold-500 italic' : 'text-gray-900'}`}>{isPrive ? 'The Prive Collection' : 'Our Collection'}</h2>
                           <div className="w-24 h-1 bg-gold-600 mx-auto mb-6"></div>
 
+                          <DownloadAppBanner isPrive={isPrive} />
+
                           {/* EIDI BUTTON */}
                           {!localStorage.getItem('ethniq_eidi_reward') && !userData?.eidiReward && (
                               <div className="mb-8 animate-bounce">
@@ -2848,7 +2846,6 @@ const BrandStory = ({ appMode }) => {
           </footer>
 
           {user && <AIChatAssistant user={user} isPrive={isPrive} products={products} userData={userData} onOpenProduct={handleOpenProduct} />}
-          {showDownloadBanner && <DownloadAppBanner isPrive={isPrive} onClose={() => setShowDownloadBanner(false)} />}
           <FloatingWhatsApp />
           <MobileBottomBar
               cartCount={cart.reduce((a,b)=>a+b.quantity,0)}
