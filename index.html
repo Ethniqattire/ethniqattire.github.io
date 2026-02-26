@@ -64,7 +64,7 @@
   const PRIVE_PRICE_THRESHOLD = 2500;
   const INITIAL_PRODUCT_LIMIT = 6;
   const GEMINI_API_KEY = "AIzaSyBS3Qg0-Sh_IvjlxogfYr_WjB1sI1sE9Vw";
-  const ZARA_ICON = "https://cdn-icons-png.flaticon.com/512/4140/4140047.png";
+  const MOON_ICON = "https://cdn-icons-png.flaticon.com/512/4140/4140047.png";
   const APK_DOWNLOAD_URL = "./Ethniqattire.apk";
 
   // --- PAYMENT CONFIG ---
@@ -248,7 +248,7 @@ const IconWarning = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-8
       const [input, setInput] = useState('');
       // This array stores the conversation history for memory
       const [messages, setMessages] = useState([
-          { role: 'model', text: "Ramadan Mubarak! 🌙✨ I'm Zara, your personal stylist at Ethniq Attire. Looking for the perfect Eid outfit today? 💖" }
+          { role: 'model', text: "Ramadan Mubarak! 🌙✨ I'm Moon, your personal stylist at Ethniq Attire. Looking for the perfect Eid outfit today? 💖" }
       ]);
       const [loading, setLoading] = useState(false);
       const [activeModel, setActiveModel] = useState('models/gemini-1.5-flash');
@@ -290,7 +290,7 @@ const IconWarning = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-8
 
       // UPGRADE: Function to reset the conversation
       const clearChat = () => {
-          setMessages([{ role: 'model', text: "Ramadan Mubarak! 🌙✨ I'm Zara, your personal stylist at Ethniq Attire. Looking for the perfect Eid outfit today? 💖" }]);
+          setMessages([{ role: 'model', text: "Ramadan Mubarak! 🌙✨ I'm Moon, your personal stylist at Ethniq Attire. Looking for the perfect Eid outfit today? 💖" }]);
       };
 
       const quickPrompts = ["Show me new arrivals ✨", "Track my order 📦"];
@@ -340,7 +340,7 @@ const IconWarning = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-8
               : "No recent orders found.";
 
           // System instructions to keep the AI on brand (UPDATED FOR RAMADAN)
-          const systemPrompt = `You are Zara, the cute and stylish AI fashion assistant for Ethniq Attire. It is currently Ramadan, so greet users with "Ramadan Mubarak" or "Eid Mubarak" appropriately.
+          const systemPrompt = `You are Moon, the cute and stylish AI fashion assistant for Ethniq Attire. It is currently Ramadan, so greet users with "Ramadan Mubarak" or "Eid Mubarak" appropriately.
 
           CURRENT USER: ${userName}
           USER'S RECENT ORDERS:
@@ -354,7 +354,7 @@ const IconWarning = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-8
           5. We are ONLY ONLINE. Address: 28 No, Garden Reach Road, Kolkata. Contact: +91 6290328892.
           6. **TONE:** Super friendly, warm, and helpful (like a best friend). Use emojis (✨, 💖, 🌙, 👗) to make it cute!
           7. **IMPORTANT:** If a product title does NOT say "Unstitched", it is considered "Stitched" or "Ready-to-Wear".
-          8. **IDENTITY:** Your name is Zara. You are a girl who loves fashion. If asked your name, say it happily with an emoji!
+          8. **IDENTITY:** Your name is Moon. You are a girl who loves fashion. If asked your name, say it happily with an emoji!
           9. If asked about "Track Order" or "Order Status", check the RECENT ORDERS list. If the user provides an Order ID, try to match it. If no ID is provided, show the status of the most recent order.
           10. **RAMADAN/EID:** If users ask for Eid outfits, prioritize suggesting "Unstitched" suits or heavy embroidery items suitable for festivals.
           ${discountRules}
@@ -414,7 +414,7 @@ const IconWarning = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-8
               {!isOpen ? (
                   <button onClick={() => setIsOpen(true)} className={`w-16 h-16 rounded-full shadow-2xl flex items-center justify-center transition transform hover:scale-110 active:scale-95 border-2 p-1 ${isPrive ? 'bg-navy-950 border-gold-600' : 'bg-white border-navy-900'}`}>
                       {/* Use your official brand logo on the bubble */}
-                      <img src={ZARA_ICON} className="w-full h-full object-cover rounded-full" alt="AI Chat" />
+                      <img src={MOON_ICON} className="w-full h-full object-cover rounded-full" alt="AI Chat" />
                       <div className="absolute top-0 right-0 w-4 h-4 bg-green-500 rounded-full border-2 border-white animate-pulse"></div>
                   </button>
               ) : (
@@ -423,7 +423,7 @@ const IconWarning = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-8
                       {/* Header with Brand Logo */}
                       <div className={`p-4 flex justify-between items-center ${isPrive ? 'bg-navy-900 text-gold-500' : 'bg-navy-900 text-white'}`}>
                           <div className="flex items-center gap-3">
-                              <img src={ZARA_ICON} className="w-8 h-8 rounded-full bg-white p-0.5 object-cover" />
+                              <img src={MOON_ICON} className="w-8 h-8 rounded-full bg-white p-0.5 object-cover" />
                               <div>
                                   <p className="font-serif font-bold text-xs uppercase tracking-widest">Ethniq Concierge</p>
                                   <p className="text-[9px] opacity-60 uppercase tracking-tighter">Premium Support | AI Powered</p>
@@ -1301,7 +1301,7 @@ const BrandStory = ({ appMode }) => {
           }
 
           if (zaraData && !zaraData.used) {
-              coupons.push({ code: zaraData.code, desc: "Zara's Special Gift (15% Off)", type: 'zara' });
+              coupons.push({ code: zaraData.code, desc: "Moon's Special Gift (15% Off)", type: 'zara' });
           }
           setSavedCoupons(coupons);
       }, [user, userData]);
