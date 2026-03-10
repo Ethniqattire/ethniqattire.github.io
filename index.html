@@ -759,14 +759,14 @@ const AnnouncementBar = ({ isPrive }) => {
   return (
       <div className={`w-full py-2 overflow-hidden relative z-[60] flex ${isPrive ? 'bg-gold-600 text-black' : 'bg-emerald-900 text-white'}`}>
           <div className="animate-marquee whitespace-nowrap flex gap-8 min-w-full">
-              <span className="text-[10px] md:text-xs font-bold uppercase tracking-widest">🌙 Ramadan Mubarak! Get your Eid outfits now</span>
+              <span className="text-[10px] md:text-xs font-bold uppercase tracking-widest">🌙 Ramadan Mubarak! Shop Latest Trends</span>
               <span className="text-[10px] md:text-xs font-bold uppercase tracking-widest">✨ Free Shipping all over India</span>
               <span className="text-[10px] md:text-xs font-bold uppercase tracking-widest">💎 Use code EID2025 for Special Offers</span>
-              <span className="text-[10px] md:text-xs font-bold uppercase tracking-widest">🛍️ New Eid Collection Live Now</span>
-              <span className="text-[10px] md:text-xs font-bold uppercase tracking-widest">🌙 Ramadan Mubarak! Get your Eid outfits now</span>
+              <span className="text-[10px] md:text-xs font-bold uppercase tracking-widest">🛍️ Premium Collection Live Now</span>
+              <span className="text-[10px] md:text-xs font-bold uppercase tracking-widest">🌙 Ramadan Mubarak! Shop Latest Trends</span>
               <span className="text-[10px] md:text-xs font-bold uppercase tracking-widest">✨ Free Shipping all over India</span>
               <span className="text-[10px] md:text-xs font-bold uppercase tracking-widest">💎 Use code EID2025 for Special Offers</span>
-              <span className="text-[10px] md:text-xs font-bold uppercase tracking-widest">🛍️ New Eid Collection Live Now</span>
+              <span className="text-[10px] md:text-xs font-bold uppercase tracking-widest">🛍️ Premium Collection Live Now</span>
           </div>
       </div>
   );
@@ -1076,7 +1076,7 @@ const Navbar = ({ cartCount, wishlistCount, onViewChange, onScrollToContact, app
                                   )}
                                   <div className="mt-auto flex gap-3">
                                       {/* EID BADGE IN DETAIL VIEW */}
-                                      <div className="md:hidden absolute top-20 right-0 bg-green-600 text-white text-[10px] font-bold px-2 py-1 rounded-l shadow-md z-20">🌙 Get it before Eid</div>
+                                      <div className="md:hidden absolute top-20 right-0 bg-gold-600 text-white text-[10px] font-bold px-2 py-1 rounded-l shadow-md z-20">✨ Premium Quality</div>
                                       <button disabled={isOutOfStock} onClick={() => { onAddToCart({ ...product, selectedSize }); onBack(); }} className={`flex-1 h-12 rounded font-bold tracking-wide transition shadow-lg uppercase text-sm ${isOutOfStock ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : (isPrive ? 'bg-gold-600 text-black hover:bg-gold-700' : 'bg-navy-900 text-white hover:bg-gray-800')}`}> {isOutOfStock ? 'Out of Stock' : 'Add to Cart'} </button>
                                       {!isOutOfStock && (
                                           <button onClick={() => onBuyNow({ ...product, selectedSize })} className={`flex-1 h-12 rounded font-bold tracking-wide transition shadow-lg uppercase text-sm border ${isPrive ? 'bg-navy-900 text-gold-500 border-gold-600 hover:bg-navy-800' : 'bg-white text-navy-900 border-navy-900 hover:bg-gray-50'}`}> Buy Now </button>
@@ -1169,7 +1169,7 @@ const Navbar = ({ cartCount, wishlistCount, onViewChange, onScrollToContact, app
                   {isOutOfStock && ( <div className="absolute inset-0 bg-white/60 backdrop-blur-[1px] flex items-center justify-center z-10"><span className="bg-navy-900 text-white text-xs font-bold px-4 py-2 uppercase tracking-widest shadow-md border border-navy-800">Sold Out</span></div> )}
                   <button onClick={(e) => { e.stopPropagation(); onToggleWishlist(product); }} className={`absolute top-3 right-3 p-2 rounded-full shadow-md transition-transform hover:scale-110 z-20 ${isPrive ? 'bg-navy-950/80 text-gold-500' : 'bg-white/90 text-gray-400 hover:text-red-500'}`}><IconHeart filled={isWishlisted} /></button>
                   {/* EID BADGE */}
-                  {!isOutOfStock && <div className="absolute bottom-0 left-0 w-full bg-emerald-900/90 text-white text-[10px] font-bold text-center py-1 tracking-widest">🌙 Get it before Eid</div>}
+                  {!isOutOfStock && <div className="absolute bottom-0 left-0 w-full bg-navy-900/90 text-white text-[10px] font-bold text-center py-1 tracking-widest">✨ Premium Collection</div>}
                   {!isOutOfStock && (isTrending && <div className="absolute bottom-3 left-3 flex gap-1"><span className="bg-gradient-to-r from-amber-400 to-amber-600 text-white text-[10px] font-bold px-2 py-1 rounded shadow uppercase tracking-wider">Trending</span></div>)}
               </div>
               <div className="p-4 flex flex-col flex-grow text-center">
@@ -1856,12 +1856,31 @@ const BrandStory = ({ appMode }) => {
 
     const showNotification = (msg) => { setNotification({ show: true, message: msg }); setTimeout(() => setNotification({ show: false, message: '' }), 3000); };
 
-    const fetchData = async () => { try { const productSnapshot = await db.collectionGroup('catalog').get(); const productList = productSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })); setProducts(productList); const reviewSnapshot = await db.collection('artifacts').doc(APP_ID).collection('users').doc(MERCHANT_ID).collection('reviews').orderBy('date', 'desc').get(); const reviewList = reviewSnapshot.docs.map(doc => { const data = doc.data(); return { id: doc.id, title: data.clientName || data.name || 'Customer', text: data.description || data.text || '', rating: data.rating || 5, date: data.date, images: data.images || (data.image ? [data.image] : []) }; }); setReviews(reviewList); } catch (error) { console.error("Error", error); } finally { setLoading(false); } };
-    useEffect(() => { fetchData(); }, []);
+    // REAL-TIME LISTENER: Replaces fetchData to sync automatically with BMS
+    useEffect(() => {
+        setLoading(true);
+        // Listener for Products (Catalog)
+        const unsubscribeProducts = db.collectionGroup('catalog').onSnapshot((snapshot) => {
+            const productList = snapshot.docs.map(doc => ({ 
+                id: doc.id, 
+                path: doc.ref.path, // Store the exact database path for updates
+                ...doc.data() 
+            }));
+            setProducts(productList);
+            setLoading(false);
+        });
+
+        // Listener for Reviews
+        const unsubscribeReviews = db.collection('artifacts').doc(APP_ID).collection('users').doc(MERCHANT_ID).collection('reviews').orderBy('date', 'desc').onSnapshot((snapshot) => {
+            const reviewList = snapshot.docs.map(doc => { const data = doc.data(); return { id: doc.id, title: data.clientName || data.name || 'Customer', text: data.description || data.text || '', rating: data.rating || 5, date: data.date, images: data.images || (data.image ? [data.image] : []) }; });
+            setReviews(reviewList);
+        });
+
+        return () => { unsubscribeProducts(); unsubscribeReviews(); };
+    }, []);
 
     // REFRESH HANDLER
     const handleRefresh = async () => {
-        await fetchData(); // Reload products & reviews
         if (user) await fetchUserData(user); // Reload user profile
         await new Promise(resolve => setTimeout(resolve, 1500)); // Small delay for UX
     };
@@ -1902,7 +1921,7 @@ const BrandStory = ({ appMode }) => {
         return () => window.removeEventListener('popstate', onPopState);
     }, []);
 
-    const handleSubmitReview = async (reviewData, onSuccess) => { try { const imageUrls = []; const storageRef = firebase.storage().ref(); if (reviewData.imageFiles && reviewData.imageFiles.length > 0) { for (const file of reviewData.imageFiles) { const fileRef = storageRef.child(`review_images/${Date.now()}_${file.name}`); await fileRef.put(file); const url = await fileRef.getDownloadURL(); imageUrls.push(url); } } const newReview = { clientName: reviewData.name, description: reviewData.text, rating: reviewData.rating, date: new Date().toISOString(), images: imageUrls }; await db.collection('artifacts').doc(APP_ID).collection('users').doc(MERCHANT_ID).collection('reviews').add(newReview); setShowSuccessModal({ show: true, title: "Review Submitted", msg: "Thanks for your feedback!" }); fetchData(); if (onSuccess) onSuccess(); } catch (error) { alert("Failed to submit review."); } };
+    const handleSubmitReview = async (reviewData, onSuccess) => { try { const imageUrls = []; const storageRef = firebase.storage().ref(); if (reviewData.imageFiles && reviewData.imageFiles.length > 0) { for (const file of reviewData.imageFiles) { const fileRef = storageRef.child(`review_images/${Date.now()}_${file.name}`); await fileRef.put(file); const url = await fileRef.getDownloadURL(); imageUrls.push(url); } } const newReview = { clientName: reviewData.name, description: reviewData.text, rating: reviewData.rating, date: new Date().toISOString(), images: imageUrls }; await db.collection('artifacts').doc(APP_ID).collection('users').doc(MERCHANT_ID).collection('reviews').add(newReview); setShowSuccessModal({ show: true, title: "Review Submitted", msg: "Thanks for your feedback!" }); if (onSuccess) onSuccess(); } catch (error) { alert("Failed to submit review."); } };
 
     const addToCart = (product) => { setCart(prev => { const idx = prev.findIndex(p => p.id === product.id && p.selectedSize === product.selectedSize); if(idx > -1) { const newCart = [...prev]; newCart[idx].quantity += 1; return newCart; } return [...prev, { ...product, quantity: 1 }]; }); showNotification("Added to Bag"); };
     const updateCartQty = (index, change) => { setCart(prev => { const newCart = [...prev]; newCart[index].quantity += change; if(newCart[index].quantity < 1) newCart.splice(index, 1); return newCart; }); };
@@ -1958,6 +1977,17 @@ const BrandStory = ({ appMode }) => {
             };
             await db.collection('artifacts').doc(APP_ID).collection('users').doc(MERCHANT_ID).collection('orders').add(orderData);
 
+            // Automatically update stock: Decrement quantity for each item ordered
+            const batch = db.batch();
+            cart.forEach((item) => {
+                // FIX: Use the exact path from where the product was fetched to ensure BMS sync
+                const productRef = item.path ? db.doc(item.path) : db.collection('artifacts').doc(APP_ID).collection('users').doc(MERCHANT_ID).collection('catalog').doc(item.id);
+                batch.update(productRef, { stock: firebase.firestore.FieldValue.increment(-item.quantity) });
+            });
+            await batch.commit();
+
+            // NOTE: Local state update removed because Real-time Listener (onSnapshot) handles it automatically now.
+
             // Mark promo code as used
             if (checkoutData.promoCode) {
                 if (user) {
@@ -2006,6 +2036,16 @@ const BrandStory = ({ appMode }) => {
                     const orderDoc = await orderRef.get();
                     const orderData = orderDoc.data();
                     await orderRef.update({ status: 'Cancelled' });
+
+                    // RESTORE STOCK: Add items back to database and local state
+                    if (orderData.items && orderData.items.length > 0) {
+                        const batch = db.batch();
+                        orderData.items.forEach((item) => {
+                            const productRef = item.path ? db.doc(item.path) : db.collection('artifacts').doc(APP_ID).collection('users').doc(MERCHANT_ID).collection('catalog').doc(item.id);
+                            batch.update(productRef, { stock: firebase.firestore.FieldValue.increment(item.quantity) });
+                        });
+                        await batch.commit();
+                    }
 
                     // Restore promo code if order is cancelled
                     if (orderData.promoCode) {
