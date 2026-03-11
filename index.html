@@ -311,7 +311,8 @@ const IconWarning = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-8
 
           // UPGRADE: Feed Inventory to AI & Set Strict Rules
           const productContext = products.filter(p => {
-              const stockVal = p.stock !== undefined ? p.stock : (p.quantity !== undefined ? p.quantity : 0);
+              // FIX: Prioritize 'quantity' over 'stock' to match BMS
+              const stockVal = p.quantity !== undefined ? p.quantity : (p.stock !== undefined ? p.stock : 0);
               return Number(stockVal) > 0;
           // UPGRADE: Increased limit from 50 to 300 products so AI knows more inventory
           }).slice(0, 300).map(p => {
@@ -946,7 +947,8 @@ const Navbar = ({ cartCount, wishlistCount, onViewChange, onScrollToContact, app
       if (!product) return null;
       const sizesArray = product.sizes ? product.sizes.split(',').map(s => s.trim()) : [];
       const images = product.images || [];
-      const stockVal = product.stock !== undefined ? product.stock : (product.quantity !== undefined ? product.quantity : 0);
+      // FIX: Prioritize 'quantity' field to sync with BMS updates
+      const stockVal = product.quantity !== undefined ? product.quantity : (product.stock !== undefined ? product.stock : 0);
       const isOutOfStock = Number(stockVal) <= 0;
 
       // NEW: Image navigation functions
@@ -1151,7 +1153,8 @@ const Navbar = ({ cartCount, wishlistCount, onViewChange, onScrollToContact, app
   const CategoryFilter = ({ categories, selectedCategory, onSelectCategory, isPrive }) => ( <div className="hidden md:flex flex-wrap gap-2 justify-center md:justify-start mb-8"> {categories.map(cat => ( <button key={cat} onClick={() => onSelectCategory(cat)} className={`px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all border ${selectedCategory === cat ? (isPrive ? 'bg-gold-600 text-black border-gold-600' : 'bg-navy-900 text-white border-navy-900') : (isPrive ? 'bg-navy-900 text-gray-400 border-navy-800 hover:border-gold-600' : 'bg-white text-gray-600 border-gray-200 hover:border-gold-600')}`}> {cat} </button> ))} </div> );
 
   const ProductCard = ({ product, onOpen, isPrive, onToggleWishlist, isWishlisted }) => {
-      const stockVal = product.stock !== undefined ? product.stock : (product.quantity !== undefined ? product.quantity : 0);
+      // FIX: Prioritize 'quantity' field to sync with BMS updates
+      const stockVal = product.quantity !== undefined ? product.quantity : (product.stock !== undefined ? product.stock : 0);
       const isOutOfStock = Number(stockVal) <= 0;
       const isTrending = product.finalPrice > 3500;
 
@@ -1466,7 +1469,8 @@ const BrandStory = ({ appMode }) => {
                   <h1 className={`text-3xl font-serif font-bold mb-8 border-b pb-4 ${isPrive ? 'border-navy-800 text-white' : 'border-gray-200 text-gray-900'}`}>Your Wishlist</h1>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                       {wishlist.map((item) => {
-                          const stockVal = item.stock !== undefined ? item.stock : (item.quantity !== undefined ? item.quantity : 0);
+                          // FIX: Prioritize 'quantity' field to sync with BMS updates
+                          const stockVal = item.quantity !== undefined ? item.quantity : (item.stock !== undefined ? item.stock : 0);
                           const isOutOfStock = Number(stockVal) <= 0;
                           return (
                               <div key={item.id} className={`group relative rounded-xl overflow-hidden hover:shadow-2xl transition-all duration-500 flex flex-col border ${cardBgClass}`}>
@@ -1982,7 +1986,8 @@ const BrandStory = ({ appMode }) => {
             cart.forEach((item) => {
                 // FIX: Use the exact path from where the product was fetched to ensure BMS sync
                 const productRef = item.path ? db.doc(item.path) : db.collection('artifacts').doc(APP_ID).collection('users').doc(MERCHANT_ID).collection('catalog').doc(item.id);
-                batch.update(productRef, { stock: firebase.firestore.FieldValue.increment(-item.quantity) });
+                // FIX: Decrement 'quantity' field instead of 'stock' to match BMS
+                batch.update(productRef, { quantity: firebase.firestore.FieldValue.increment(-item.quantity) });
             });
             await batch.commit();
 
@@ -2042,7 +2047,8 @@ const BrandStory = ({ appMode }) => {
                         const batch = db.batch();
                         orderData.items.forEach((item) => {
                             const productRef = item.path ? db.doc(item.path) : db.collection('artifacts').doc(APP_ID).collection('users').doc(MERCHANT_ID).collection('catalog').doc(item.id);
-                            batch.update(productRef, { stock: firebase.firestore.FieldValue.increment(item.quantity) });
+                            // FIX: Restore 'quantity' instead of 'stock'
+                            batch.update(productRef, { quantity: firebase.firestore.FieldValue.increment(item.quantity) });
                         });
                         await batch.commit();
                     }
