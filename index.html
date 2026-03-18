@@ -128,7 +128,7 @@ const GEMINI_API_KEY = keyPart1 + keyPart2;
 
       return { countryCode: '+91', number: fullNumStr.replace(/^\+91/, '') }; // Default to India
   };
-  const userDocRef = (uid) => db.collection('artifacts').doc(APP_ID).collection('users').doc(MERCHANT_ID).collection('customers').doc(uid);
+  const userDocRef = (uid) => db.collection('customers').doc(uid);
 
   // --- ICONS ---
   const IconBag = ({className}) => <svg xmlns="http://www.w3.org/2000/svg" className={className || "h-6 w-6"} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" /></svg>;
@@ -279,7 +279,7 @@ const IconWarning = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-8
       // FETCH RECENT ORDERS FOR CONTEXT
       useEffect(() => {
           if (user) {
-              db.collection('artifacts').doc(APP_ID).collection('users').doc(MERCHANT_ID).collection('orders')
+              db.collection('orders')
                   .where('userId', '==', user.uid).get()
                   .then(snapshot => {
                       const orders = snapshot.docs.map(doc => ({id: doc.id, ...doc.data()}));
@@ -1316,7 +1316,7 @@ const BrandStory = ({ appMode }) => {
           if (!promoCode.trim()) return;
           setPromoError(''); setActivePromo(null);
           try {
-              const promosRef = db.collection('artifacts').doc(APP_ID).collection('users').doc(MERCHANT_ID).collection('promocodes');
+              const promosRef = db.collection('promocodes');
               const snapshot = await promosRef.where('code', '==', promoCode.toUpperCase()).where('isActive', '==', true).get();
               if (snapshot.empty) { setPromoError('Invalid or expired code.'); }
               else {
@@ -1864,7 +1864,7 @@ const BrandStory = ({ appMode }) => {
     useEffect(() => {
         setLoading(true);
         // Listener for Products (Catalog)
-        const unsubscribeProducts = db.collectionGroup('catalog').onSnapshot((snapshot) => {
+        const unsubscribeProducts = db.collection('catalog').onSnapshot((snapshot) => {
             const productList = snapshot.docs.map(doc => ({ 
                 id: doc.id, 
                 path: doc.ref.path, // Store the exact database path for updates
@@ -1875,7 +1875,7 @@ const BrandStory = ({ appMode }) => {
         });
 
         // Listener for Reviews
-        const unsubscribeReviews = db.collection('artifacts').doc(APP_ID).collection('users').doc(MERCHANT_ID).collection('reviews').orderBy('date', 'desc').onSnapshot((snapshot) => {
+        const unsubscribeReviews = db.collection('reviews').orderBy('date', 'desc').onSnapshot((snapshot) => {
             const reviewList = snapshot.docs.map(doc => { const data = doc.data(); return { id: doc.id, title: data.clientName || data.name || 'Customer', text: data.description || data.text || '', rating: data.rating || 5, date: data.date, images: data.images || (data.image ? [data.image] : []) }; });
             setReviews(reviewList);
         });
@@ -1925,7 +1925,7 @@ const BrandStory = ({ appMode }) => {
         return () => window.removeEventListener('popstate', onPopState);
     }, []);
 
-    const handleSubmitReview = async (reviewData, onSuccess) => { try { const imageUrls = []; const storageRef = firebase.storage().ref(); if (reviewData.imageFiles && reviewData.imageFiles.length > 0) { for (const file of reviewData.imageFiles) { const fileRef = storageRef.child(`review_images/${Date.now()}_${file.name}`); await fileRef.put(file); const url = await fileRef.getDownloadURL(); imageUrls.push(url); } } const newReview = { clientName: reviewData.name, description: reviewData.text, rating: reviewData.rating, date: new Date().toISOString(), images: imageUrls }; await db.collection('artifacts').doc(APP_ID).collection('users').doc(MERCHANT_ID).collection('reviews').add(newReview); setShowSuccessModal({ show: true, title: "Review Submitted", msg: "Thanks for your feedback!" }); if (onSuccess) onSuccess(); } catch (error) { alert("Failed to submit review."); } };
+    const handleSubmitReview = async (reviewData, onSuccess) => { try { const imageUrls = []; const storageRef = firebase.storage().ref(); if (reviewData.imageFiles && reviewData.imageFiles.length > 0) { for (const file of reviewData.imageFiles) { const fileRef = storageRef.child(`review_images/${Date.now()}_${file.name}`); await fileRef.put(file); const url = await fileRef.getDownloadURL(); imageUrls.push(url); } } const newReview = { clientName: reviewData.name, description: reviewData.text, rating: reviewData.rating, date: new Date().toISOString(), images: imageUrls }; await db.collection('reviews').add(newReview); setShowSuccessModal({ show: true, title: "Review Submitted", msg: "Thanks for your feedback!" }); if (onSuccess) onSuccess(); } catch (error) { alert("Failed to submit review."); } };
 
     const addToCart = (product) => { setCart(prev => { const idx = prev.findIndex(p => p.id === product.id && p.selectedSize === product.selectedSize); if(idx > -1) { const newCart = [...prev]; newCart[idx].quantity += 1; return newCart; } return [...prev, { ...product, quantity: 1 }]; }); showNotification("Added to Bag"); };
     const updateCartQty = (index, change) => { setCart(prev => { const newCart = [...prev]; newCart[index].quantity += change; if(newCart[index].quantity < 1) newCart.splice(index, 1); return newCart; }); };
@@ -1979,13 +1979,13 @@ const BrandStory = ({ appMode }) => {
                 utr: userDetails.utr || '',
                 createdAt: new Date().toISOString()
             };
-            await db.collection('artifacts').doc(APP_ID).collection('users').doc(MERCHANT_ID).collection('orders').add(orderData);
+            await db.collection('orders').add(orderData);
 
             // Automatically update stock: Decrement quantity for each item ordered
             const batch = db.batch();
             cart.forEach((item) => {
-                // FIX: Use the exact path from where the product was fetched to ensure BMS sync
-                const productRef = item.path ? db.doc(item.path) : db.collection('artifacts').doc(APP_ID).collection('users').doc(MERCHANT_ID).collection('catalog').doc(item.id);
+                // FIX: Use the exact path from where the product was fetched to ensure sync
+                const productRef = item.path ? db.doc(item.path) : db.collection('catalog').doc(item.id);
                 // FIX: Decrement 'quantity' field instead of 'stock' to match BMS
                 batch.update(productRef, { quantity: firebase.firestore.FieldValue.increment(-item.quantity) });
             });
@@ -2037,7 +2037,7 @@ const BrandStory = ({ appMode }) => {
             confirmText: "Yes, Cancel",
             onConfirm: async () => {
                 try {
-                    const orderRef = db.collection('artifacts').doc(APP_ID).collection('users').doc(MERCHANT_ID).collection('orders').doc(orderId);
+                    const orderRef = db.collection('orders').doc(orderId);
                     const orderDoc = await orderRef.get();
                     const orderData = orderDoc.data();
                     await orderRef.update({ status: 'Cancelled' });
@@ -2046,7 +2046,7 @@ const BrandStory = ({ appMode }) => {
                     if (orderData.items && orderData.items.length > 0) {
                         const batch = db.batch();
                         orderData.items.forEach((item) => {
-                            const productRef = item.path ? db.doc(item.path) : db.collection('artifacts').doc(APP_ID).collection('users').doc(MERCHANT_ID).collection('catalog').doc(item.id);
+                            const productRef = item.path ? db.doc(item.path) : db.collection('catalog').doc(item.id);
                             // FIX: Restore 'quantity' instead of 'stock'
                             batch.update(productRef, { quantity: firebase.firestore.FieldValue.increment(item.quantity) });
                         });
@@ -2213,7 +2213,7 @@ const BrandStory = ({ appMode }) => {
           if(!user) return;
           const fetchOrders = async () => {
               try {
-                  const ordersRef = db.collection('artifacts').doc(APP_ID).collection('users').doc(MERCHANT_ID).collection('orders');
+                  const ordersRef = db.collection('orders');
                   const snapshot = await ordersRef.where('userId', '==', user.uid).get();
                   // Sorting client-side to avoid composite index issues
                   const loadedOrders = snapshot.docs.map(doc => ({id: doc.id, ...doc.data()}));
