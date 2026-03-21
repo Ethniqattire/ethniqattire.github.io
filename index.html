@@ -1508,15 +1508,15 @@ const BrandStory = ({ appMode }) => {
           {/* Lanterns hanging from top */}
           <div className="absolute top-[-10px] left-[5%] md:left-[10%] animate-float" style={{animationDelay: '0s'}}>
               <div className="w-0.5 h-16 bg-gold-600 mx-auto"></div>
-              <IconLantern className="w-10 h-10 md:w-12 md:h-12 text-gold-400 drop-shadow-[0_0_12px_rgba(191,161,95,0.8)]" />
+                  <IconLantern className="w-10 h-10 md:w-12 md:h-12 text-yellow-400 drop-shadow-[0_0_15px_rgba(250,204,21,0.8)]" />
           </div>
           <div className="absolute top-[-20px] left-[80%] md:left-[85%] animate-float" style={{animationDelay: '1.5s'}}>
               <div className="w-0.5 h-12 bg-gold-600 mx-auto"></div>
-              <IconLantern className="w-8 h-8 md:w-10 md:h-10 text-gold-400 drop-shadow-[0_0_12px_rgba(191,161,95,0.8)]" />
+                  <IconLantern className="w-8 h-8 md:w-10 md:h-10 text-yellow-400 drop-shadow-[0_0_15px_rgba(250,204,21,0.8)]" />
           </div>
           <div className="absolute top-[-5px] left-[50%] animate-float hidden md:flex flex-col items-center" style={{animationDelay: '0.5s'}}>
               <div className="w-0.5 h-20 bg-gold-600 mx-auto"></div>
-              <IconLantern className="w-14 h-14 text-gold-400 drop-shadow-[0_0_15px_rgba(191,161,95,1)]" />
+                  <IconLantern className="w-14 h-14 text-yellow-400 drop-shadow-[0_0_20px_rgba(250,204,21,1)]" />
           </div>
       </div>
   );
@@ -1531,24 +1531,24 @@ const BrandStory = ({ appMode }) => {
                   <div className="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/arabesque.png')]"></div>
                   
                   {/* Gradient top bar */}
-                  <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-gold-400 via-yellow-200 to-gold-400"></div>
+                  <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-yellow-400 via-yellow-200 to-yellow-400"></div>
 
-                  <button onClick={onClose} className="absolute top-4 right-4 text-gold-200 hover:text-white z-10"><IconClose /></button>
+                  <button onClick={onClose} className="absolute top-4 right-4 text-yellow-200 hover:text-white z-10"><IconClose /></button>
                   
                   <div className="relative z-10 mb-6 flex justify-center">
                       <div className="relative">
-                          <IconLantern className="w-24 h-24 text-gold-400 animate-pulse drop-shadow-[0_0_20px_rgba(191,161,95,1)]" />
+                          <IconLantern className="w-24 h-24 text-yellow-400 animate-pulse drop-shadow-[0_0_20px_rgba(250,204,21,1)]" />
                           <span className="absolute top-1/2 -left-8 text-2xl animate-bounce" style={{animationDelay: '0.2s'}}>✨</span>
                           <span className="absolute top-1/2 -right-8 text-2xl animate-bounce" style={{animationDelay: '0.5s'}}>✨</span>
                       </div>
                   </div>
                   
-                  <h2 className="relative z-10 text-4xl font-serif font-bold text-gold-400 mb-3 drop-shadow-md">Eid Mubarak</h2>
+                  <h2 className="relative z-10 text-4xl font-serif font-bold text-yellow-400 mb-3 drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)]">Eid Mubarak</h2>
                   <div className="relative z-10 w-16 h-1 bg-gold-500/50 mx-auto mb-4 rounded-full"></div>
                   
                   <p className="relative z-10 text-emerald-50 mb-8 text-sm leading-relaxed font-medium">
                       May this blessed day bring peace, joy, and prosperity to you and your family. <br/><br/>
-                      <span className="text-gold-200">Explore our exclusive Eid Collection now.</span>
+                      <span className="text-yellow-200">Explore our exclusive Eid Collection now.</span>
                   </p>
                   
                   <button onClick={onClose} className="relative z-10 w-full py-4 bg-gradient-to-r from-gold-600 via-yellow-500 to-gold-600 text-emerald-950 font-bold rounded-full uppercase tracking-widest hover:scale-105 transition transform shadow-[0_0_15px_rgba(191,161,95,0.6)]">
@@ -1598,7 +1598,7 @@ const BrandStory = ({ appMode }) => {
                                   <button
                                       key={i}
                                       onClick={() => handleSelect(i)}
-                                      className={`w-24 h-32 bg-gradient-to-br from-emerald-700 to-emerald-900 rounded-lg shadow-[0_10px_20px_rgba(0,0,0,0.3)] flex items-center justify-center border-[3px] border-gold-400 transition-all duration-500 relative overflow-hidden ${selected === i ? 'scale-110 rotate-y-180' : 'hover:-translate-y-2 hover:shadow-[0_0_15px_rgba(191,161,95,0.5)]'} ${selected !== null && selected !== i ? 'opacity-50 grayscale' : ''}`}
+                                      className={`w-24 h-32 bg-gradient-to-br from-emerald-700 to-emerald-900 rounded-lg shadow-[0_10px_20px_rgba(0,0,0,0.3)] flex items-center justify-center border-[3px] border-yellow-400 transition-all duration-500 relative overflow-hidden ${selected === i ? 'scale-110 rotate-y-180' : 'hover:-translate-y-2 hover:shadow-[0_0_15px_rgba(250,204,21,0.5)]'} ${selected !== null && selected !== i ? 'opacity-50 grayscale' : ''}`}
                                   >
                                       <div className="absolute top-0 left-0 w-full h-1/2 bg-white/10 skew-y-12 transform origin-top-left"></div>
                                       <span className="text-4xl">✉️</span>
@@ -2845,7 +2845,7 @@ const BrandStory = ({ appMode }) => {
                           {!localStorage.getItem('ethniq_eidi_reward') && !userData?.eidiReward && (
                               <div className="mb-8 relative inline-block">
                                   <div className="absolute inset-0 bg-gold-500 rounded-full animate-ping opacity-20"></div>
-                                  <button onClick={() => setShowEidiModal(true)} className="relative bg-gradient-to-r from-emerald-700 via-green-600 to-emerald-700 text-white px-8 py-3 rounded-full font-bold shadow-[0_0_15px_rgba(16,185,129,0.5)] border-2 border-gold-400 flex items-center gap-2 mx-auto hover:scale-105 transition hover:shadow-[0_0_25px_rgba(191,161,95,0.6)]">
+                                  <button onClick={() => setShowEidiModal(true)} className="relative bg-gradient-to-r from-emerald-700 via-green-600 to-emerald-700 text-white px-8 py-3 rounded-full font-bold shadow-[0_0_15px_rgba(16,185,129,0.5)] border-2 border-yellow-400 flex items-center gap-2 mx-auto hover:scale-105 transition hover:shadow-[0_0_25px_rgba(250,204,21,0.6)]">
                                       <span className="animate-pulse">✨</span> Claim Your Eidi 🎁 <span className="animate-pulse">✨</span>
                                   </button>
                               </div>
