@@ -251,7 +251,7 @@ const IconWarning = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-8
       const [input, setInput] = useState('');
       // This array stores the conversation history for memory
       const [messages, setMessages] = useState([
-          { role: 'model', text: "Eid Mubarak! 🌙✨ I'm Moon, your personal stylist at Ethniq Attire. Looking for the perfect Eid outfit today? 💖" }
+          { role: 'model', text: "Hi there! ✨ I'm Moon, your personal stylist at Ethniq Attire. How can I help you find the perfect outfit today? 💖" }
       ]);
       const [loading, setLoading] = useState(false);
       const [activeModel, setActiveModel] = useState('models/gemini-2.0-flash');
@@ -293,7 +293,7 @@ const IconWarning = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-8
 
       // UPGRADE: Function to reset the conversation
       const clearChat = () => {
-          setMessages([{ role: 'model', text: "Eid Mubarak! 🌙✨ I'm Moon, your personal stylist at Ethniq Attire. Looking for the perfect Eid outfit today? 💖" }]);
+          setMessages([{ role: 'model', text: "Hi there! ✨ I'm Moon, your personal stylist at Ethniq Attire. How can I help you find the perfect outfit today? 💖" }]);
       };
 
       const quickPrompts = ["Show me new arrivals ✨", "Track my order 📦"];
@@ -343,8 +343,8 @@ const IconWarning = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-8
               ? recentOrders.map(o => `ORDER ID: #${o.id.toUpperCase()} | Date: ${new Date(o.createdAt).toLocaleDateString()} | Status: ${o.status} | Total: ${formatCurrency(o.totalAmount)} | Items: ${o.items.map(i => i.title).join(', ')}`).join('\n')
               : "No recent orders found.";
 
-          // System instructions to keep the AI on brand (UPDATED FOR EID)
-          const systemPrompt = `You are Moon, the cute and stylish AI fashion assistant for Ethniq Attire. It is currently Eid, so greet users with "Eid Mubarak" appropriately.
+          // System instructions to keep the AI on brand
+          const systemPrompt = `You are Moon, the cute and stylish AI fashion assistant for Ethniq Attire. Greet users warmly.
 
           CURRENT USER: ${userName}
           USER'S RECENT ORDERS:
@@ -360,7 +360,7 @@ const IconWarning = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-8
           7. **IMPORTANT:** If a product title does NOT say "Unstitched", it is considered "Stitched" or "Ready-to-Wear".
           8. **IDENTITY:** Your name is Moon. You are a girl who loves fashion. If asked your name, say it happily with an emoji!
           9. If asked about "Track Order" or "Order Status", check the RECENT ORDERS list. If the user provides an Order ID, try to match it. If no ID is provided, show the status of the most recent order.
-          10. **EID:** If users ask for Eid outfits, prioritize suggesting "Unstitched" suits or heavy embroidery items suitable for festivals.
+          10. If users ask for suggestions, recommend items that match their preferences or highlight our top-selling suits.
           ${discountRules}
 
           INVENTORY (Only sell these):
@@ -758,13 +758,14 @@ const IconWarning = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-8
 // --- NAVBAR MUST BE DEFINED BEFORE APP ---
 const AnnouncementBar = ({ isPrive }) => {
   return (
-      <div className={`w-full py-2 overflow-hidden relative z-[60] flex shadow-md ${isPrive ? 'bg-gradient-to-r from-gold-500 via-yellow-400 to-gold-500 text-black' : 'bg-gradient-to-r from-emerald-800 via-green-600 to-emerald-800 text-white'}`}>
+      <div className={`w-full py-2 overflow-hidden relative z-[60] flex shadow-md ${isPrive ? 'bg-gold-600 text-black' : 'bg-navy-900 text-white'}`}>
           <div className="animate-marquee whitespace-nowrap flex gap-8 min-w-full">
-              <span className="text-[10px] md:text-xs font-bold uppercase tracking-widest">🌙 Eid Mubarak! Shop Latest Trends</span>
-              <span className="text-[10px] md:text-xs font-bold uppercase tracking-widest">✨ Free Shipping all over India</span>
-              <span className="text-[10px] md:text-xs font-bold uppercase tracking-widest">💎 Use code EID2026 for Special Offers</span>
-              <span className="text-[10px] md:text-xs font-bold uppercase tracking-widest">🛍️ Premium Collection Live Now</span>
-              <span className="text-[10px] md:text-xs font-bold uppercase tracking-widest">🌙 Eid Mubarak! Shop Latest Trends</span>
+              <span className="text-[10px] md:text-xs font-bold uppercase tracking-widest">🚚 Free Shipping all over India</span>
+              <span className="text-[10px] md:text-xs font-bold uppercase tracking-widest">💎 Premium Quality Assured</span>
+              <span className="text-[10px] md:text-xs font-bold uppercase tracking-widest">🛍️ Latest Collection Live Now</span>
+              <span className="text-[10px] md:text-xs font-bold uppercase tracking-widest">✨ Discover Timeless Elegance</span>
+              <span className="text-[10px] md:text-xs font-bold uppercase tracking-widest">🚚 Free Shipping all over India</span>
+              <span className="text-[10px] md:text-xs font-bold uppercase tracking-widest">💎 Premium Quality Assured</span>
               <span className="text-[10px] md:text-xs font-bold uppercase tracking-widest">✨ Free Shipping all over India</span>
               <span className="text-[10px] md:text-xs font-bold uppercase tracking-widest">💎 Use code EID2025 for Special Offers</span>
               <span className="text-[10px] md:text-xs font-bold uppercase tracking-widest">🛍️ Premium Collection Live Now</span>
@@ -1187,22 +1188,22 @@ const Navbar = ({ cartCount, wishlistCount, onViewChange, onScrollToContact, app
       );
   };
 
-  const EidFestiveBanner = ({ isPrive }) => {
+  const EleganceBanner = ({ isPrive }) => {
       return (
-          <div className={`w-full py-16 px-4 mb-8 relative overflow-hidden ${isPrive ? 'bg-navy-900 border-y border-gold-600/30' : 'bg-gradient-to-br from-emerald-900 to-green-900 border-y border-gold-500/50'}`}>
-              <div className="absolute inset-0 opacity-15 bg-[url('https://www.transparenttextures.com/patterns/arabesque.png')]"></div>
+          <div className={`w-full py-16 px-4 mb-8 relative overflow-hidden ${isPrive ? 'bg-navy-900 border-y border-gold-600/30' : 'bg-gradient-to-br from-gray-900 to-navy-900 border-y border-gold-500/50'}`}>
+              <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')]"></div>
               <div className="max-w-3xl mx-auto text-center relative z-10">
-                  <div className="inline-block p-4 rounded-full mb-6 bg-white/10 backdrop-blur border border-gold-500/30 shadow-[0_0_20px_rgba(191,161,95,0.3)]">
-                      <span className="text-4xl drop-shadow-lg">🌙✨</span>
+                  <div className="inline-block p-4 rounded-full mb-6 bg-white/5 backdrop-blur border border-gold-500/30 shadow-[0_0_15px_rgba(191,161,95,0.2)]">
+                      <span className="text-4xl drop-shadow-lg">✨</span>
                   </div>
-                  <h3 className={`text-3xl md:text-4xl font-serif font-bold mb-6 ${isPrive ? 'text-gold-500' : 'text-yellow-400 drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)]'}`}>Jashn-e-Eid Mubarak</h3>
-                  <p className={`text-lg leading-relaxed max-w-2xl mx-auto font-medium ${isPrive ? 'text-gray-200' : 'text-white drop-shadow-sm'}`}>
-                      May this beautiful occasion fill your heart with joy, your home with peace, and your life with abundant blessings.<br className="hidden md:block"/> Dress in your festive best and make unforgettable memories with your loved ones.
+                  <h3 className={`text-3xl md:text-4xl font-serif font-bold mb-6 ${isPrive ? 'text-gold-500' : 'text-gold-400 drop-shadow-md'}`}>Timeless Elegance</h3>
+                  <p className={`text-lg leading-relaxed max-w-2xl mx-auto font-medium ${isPrive ? 'text-gray-300' : 'text-gray-300 drop-shadow-sm'}`}>
+                      Step into a world of curated luxury. Discover meticulously crafted attire designed to make you stand out on every occasion.
                   </p>
                   <div className="mt-8 flex items-center justify-center gap-4">
                       <div className="h-[1px] w-12 bg-gold-500/50"></div>
-                      <div className={`text-xs font-bold uppercase tracking-widest ${isPrive ? 'text-gold-600' : 'text-white drop-shadow-md'}`}>
-                          Celebrate in Style • Radiate Elegance
+                      <div className={`text-xs font-bold uppercase tracking-widest ${isPrive ? 'text-gold-600' : 'text-gold-400 drop-shadow-md'}`}>
+                          Premium Quality • Exquisite Designs
                       </div>
                       <div className="h-[1px] w-12 bg-gold-500/50"></div>
                   </div>
@@ -1502,127 +1503,6 @@ const BrandStory = ({ appMode }) => {
       );
   };
 
-  // --- NEW FESTIVE COMPONENTS ---
-  const FestiveDecorations = () => (
-      <div className="fixed top-0 left-0 w-full pointer-events-none z-[55] overflow-hidden h-40">
-          {/* Lanterns hanging from top */}
-          <div className="absolute top-[-10px] left-[5%] md:left-[10%] animate-float" style={{animationDelay: '0s'}}>
-              <div className="w-0.5 h-16 bg-gold-600 mx-auto"></div>
-                  <IconLantern className="w-10 h-10 md:w-12 md:h-12 text-yellow-400 drop-shadow-[0_0_15px_rgba(250,204,21,0.8)]" />
-          </div>
-          <div className="absolute top-[-20px] left-[80%] md:left-[85%] animate-float" style={{animationDelay: '1.5s'}}>
-              <div className="w-0.5 h-12 bg-gold-600 mx-auto"></div>
-                  <IconLantern className="w-8 h-8 md:w-10 md:h-10 text-yellow-400 drop-shadow-[0_0_15px_rgba(250,204,21,0.8)]" />
-          </div>
-          <div className="absolute top-[-5px] left-[50%] animate-float hidden md:flex flex-col items-center" style={{animationDelay: '0.5s'}}>
-              <div className="w-0.5 h-20 bg-gold-600 mx-auto"></div>
-                  <IconLantern className="w-14 h-14 text-yellow-400 drop-shadow-[0_0_20px_rgba(250,204,21,1)]" />
-          </div>
-      </div>
-  );
-
-  const EidGreetingModal = ({ isOpen, onClose }) => {
-      if (!isOpen) return null;
-      return (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-              <div className="fixed inset-0 bg-black/80 backdrop-blur-sm" onClick={onClose}></div>
-              <div className="relative w-full max-w-md p-8 rounded-2xl shadow-[0_0_40px_rgba(191,161,95,0.3)] text-center bg-gradient-to-br from-emerald-900 to-green-900 border-[3px] border-gold-500 animate-pop-in overflow-hidden">
-                  {/* Texture Overlay */}
-                  <div className="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/arabesque.png')]"></div>
-                  
-                  {/* Gradient top bar */}
-                  <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-yellow-400 via-yellow-200 to-yellow-400"></div>
-
-                  <button onClick={onClose} className="absolute top-4 right-4 text-yellow-200 hover:text-white z-10"><IconClose /></button>
-                  
-                  <div className="relative z-10 mb-6 flex justify-center">
-                      <div className="relative">
-                          <IconLantern className="w-24 h-24 text-yellow-400 animate-pulse drop-shadow-[0_0_20px_rgba(250,204,21,1)]" />
-                          <span className="absolute top-1/2 -left-8 text-2xl animate-bounce" style={{animationDelay: '0.2s'}}>✨</span>
-                          <span className="absolute top-1/2 -right-8 text-2xl animate-bounce" style={{animationDelay: '0.5s'}}>✨</span>
-                      </div>
-                  </div>
-                  
-                  <h2 className="relative z-10 text-4xl font-serif font-bold text-yellow-400 mb-3 drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)]">Eid Mubarak</h2>
-                  <div className="relative z-10 w-16 h-1 bg-gold-500/50 mx-auto mb-4 rounded-full"></div>
-                  
-                  <p className="relative z-10 text-emerald-50 mb-8 text-sm leading-relaxed font-medium">
-                      May this blessed day bring peace, joy, and prosperity to you and your family. <br/><br/>
-                      <span className="text-yellow-200">Explore our exclusive Eid Collection now.</span>
-                  </p>
-                  
-                  <button onClick={onClose} className="relative z-10 w-full py-4 bg-gradient-to-r from-gold-600 via-yellow-500 to-gold-600 text-emerald-950 font-bold rounded-full uppercase tracking-widest hover:scale-105 transition transform shadow-[0_0_15px_rgba(191,161,95,0.6)]">
-                      Shop Eid Collection
-                  </button>
-              </div>
-          </div>
-      );
-  };
-
-  const EidiModal = ({ isOpen, onClose, onClaim }) => {
-      const [selected, setSelected] = useState(null);
-      const [reward, setReward] = useState(null);
-
-      if (!isOpen) return null;
-
-      const handleSelect = (index) => {
-          if (selected !== null) return;
-          setSelected(index);
-
-          // UPDATED LOGIC: 10% (20%), 15% (70%), 25% (10%)
-          const rand = Math.random();
-          let discount = 10; // Minimum is now 10%
-          if (rand > 0.9) discount = 25;      // 1 in 10 chance (Top Prize)
-          else if (rand > 0.2) discount = 15; // Most people (70% chance)
-
-          const code = `EIDI${discount}`; // EIDI5, EIDI15, EIDI25
-
-          setTimeout(() => {
-              setReward({ discount, code });
-              onClaim({ discountPercent: discount, code });
-          }, 600);
-      };
-
-      return (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-              <div className="fixed inset-0 bg-black/80 backdrop-blur-sm" onClick={onClose}></div>
-              <div className="relative w-full max-w-md p-8 rounded-2xl shadow-[0_0_30px_rgba(191,161,95,0.3)] text-center bg-white border-4 border-gold-600 animate-pop-in overflow-hidden bg-[url('https://www.transparenttextures.com/patterns/arabesque.png')]">
-                  <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-green-600 via-gold-500 to-green-600"></div>
-
-                  {!reward ? (
-                      <>
-                          <h2 className="text-2xl font-serif font-bold text-navy-900 mb-2">Claim Your Eidi! 🎁</h2>
-                          <p className="text-gray-600 mb-8 text-sm">Pick an envelope to reveal your special Eid discount.</p>
-                          <div className="flex justify-center gap-4">
-                              {[0, 1, 2].map(i => (
-                                  <button
-                                      key={i}
-                                      onClick={() => handleSelect(i)}
-                                      className={`w-24 h-32 bg-gradient-to-br from-emerald-700 to-emerald-900 rounded-lg shadow-[0_10px_20px_rgba(0,0,0,0.3)] flex items-center justify-center border-[3px] border-yellow-400 transition-all duration-500 relative overflow-hidden ${selected === i ? 'scale-110 rotate-y-180' : 'hover:-translate-y-2 hover:shadow-[0_0_15px_rgba(250,204,21,0.5)]'} ${selected !== null && selected !== i ? 'opacity-50 grayscale' : ''}`}
-                                  >
-                                      <div className="absolute top-0 left-0 w-full h-1/2 bg-white/10 skew-y-12 transform origin-top-left"></div>
-                                      <span className="text-4xl">✉️</span>
-                                  </button>
-                              ))}
-                          </div>
-                      </>
-                  ) : (
-                      <div className="animate-fade-in">
-                          <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                              <span className="text-4xl">🎉</span>
-                          </div>
-                          <h2 className="text-3xl font-bold text-green-600 mb-2">{reward.discount}% OFF</h2>
-                          <p className="text-gray-600 mb-4">Mubarak! You won {reward.discount}% discount.</p>
-                          <div className="bg-gray-100 p-3 rounded border border-dashed border-gray-400 mb-6 font-mono font-bold text-lg tracking-widest">{reward.code}</div>
-                          <button onClick={onClose} className="w-full py-3 bg-navy-900 text-white font-bold rounded uppercase tracking-widest hover:bg-navy-800 transition">Start Shopping</button>
-                          <p className="text-[10px] text-gray-400 mt-2">Code auto-applied at checkout</p>
-                      </div>
-                  )}
-              </div>
-          </div>
-      );
-  };
-
   const DownloadAppBanner = ({ isPrive, onClose }) => {
       return (
           <div className={`mx-auto mb-6 max-w-sm w-full p-3 rounded-xl shadow-md flex items-center justify-between border ${isPrive ? 'bg-navy-900 border-gold-600/50 text-white' : 'bg-white border-gray-200 text-gray-900'}`}>
@@ -1765,8 +1645,6 @@ const BrandStory = ({ appMode }) => {
     const [ordersRefreshKey, setOrdersRefreshKey] = useState(0);
     const [sortBy, setSortBy] = useState('newest'); // Sorting State
     const [legalModal, setLegalModal] = useState({ isOpen: false, title: '', content: '' });
-    const [showEidModal, setShowEidModal] = useState(false);
-    const [showEidiModal, setShowEidiModal] = useState(false);
     const [showDownloadBanner, setShowDownloadBanner] = useState(!localStorage.getItem('app_banner_closed'));
     const [recentlyViewed, setRecentlyViewed] = useState([]);
 
@@ -1913,17 +1791,6 @@ const BrandStory = ({ appMode }) => {
         if (user) await fetchUserData(user); // Reload user profile
         await new Promise(resolve => setTimeout(resolve, 1500)); // Small delay for UX
     };
-
-    // --- RAMADAN & EIDI EFFECTS ---
-    useEffect(() => {
-        // Show Eid Modal once per session
-        const hasSeenEid = sessionStorage.getItem('seen_eid_modal');
-        if (!hasSeenEid) {
-            setTimeout(() => setShowEidModal(true), 1500);
-        }
-        // Check if Eidi is claimed
-        // We don't auto-show Eidi modal, user clicks a button to claim it (Gamification)
-    }, []);
 
     // --- RECENTLY VIEWED LOAD ---
     useEffect(() => {
@@ -2136,19 +2003,6 @@ const BrandStory = ({ appMode }) => {
             content = `1. Agreement to Terms\nBy accessing or purchasing from Ethniq Attire, you agree to be bound by these Terms of Service and all applicable laws and regulations. If you do not agree, you are prohibited from using this site.\n\n2. Intellectual Property Rights\nAll content on this website—including images, logos, product descriptions, and designs—is the exclusive property of Ethniq Attire and is protected by Indian and international copyright laws. You may not reproduce, "scrape," or use our photos for commercial purposes without express written consent.\n\n3. Accuracy of Information\nProduct Variations: We strive for color accuracy, but because different screens display colors differently, the actual product color may vary slightly from the images.\n\nPricing: We reserve the right to correct any pricing errors or cancel orders if an item was listed at an incorrect price due to technical issues.\n\n4. Payment & International Orders\nCurrency: All international prices are displayed in USD/GBP/EUR (as applicable).\n\nCustoms & Duties: For international orders, customers are the "importer of record" and are responsible for all local import duties, taxes, and customs clearance fees.\n\nPayment Security: We use secure, encrypted third-party payment gateways. Ethniq Attire does not store your full credit card information.\n\n5. Prohibited Uses\nYou agree not to use our website for any unlawful purpose, to transmit malware, or to harass other users. Any fraudulent activity (such as using stolen credit cards) will result in immediate order cancellation and may be reported to the authorities.\n\n6. Limitation of Liability\nEthniq Attire shall not be liable for any indirect, incidental, or consequential damages arising from the use of our products or website. Our maximum liability is limited to the total amount paid for the product in question.\n\n7. Governing Law\nThese terms are governed by and construed in accordance with the laws of India, and you irrevocably submit to the exclusive jurisdiction of the courts in Kolkata, West Bengal.`;
         }
         setLegalModal({ isOpen: true, title, content });
-    };
-
-    const handleEidiClaim = (rewardData) => {
-        // Save with Timestamp for 30-day validity check
-        const dataWithExpiry = { ...rewardData, timestamp: Date.now() };
-        localStorage.setItem('ethniq_eidi_reward', JSON.stringify(dataWithExpiry));
-
-        if (user) {
-            userDocRef(user.uid).set({ eidiReward: dataWithExpiry }, { merge: true })
-              .then(() => setUserData(prev => ({ ...prev, eidiReward: dataWithExpiry })));
-        }
-
-        showNotification(`You won ${rewardData.discountPercent}% Off! Code saved.`);
     };
 
     // --- COMPONENTS MOVED INSIDE APP ---
@@ -2810,7 +2664,6 @@ const BrandStory = ({ appMode }) => {
       <PullToRefresh onRefresh={handleRefresh}>
       <div className={`min-h-screen flex flex-col transition-colors duration-500 ${isPrive ? 'bg-navy-950' : 'bg-white'}`}>
           <AnnouncementBar isPrive={isPrive} />
-          <FestiveDecorations />
           <Navbar
               cartCount={cart.reduce((a,b)=>a+b.quantity,0)}
               wishlistCount={wishlist.length}
@@ -2836,20 +2689,10 @@ const BrandStory = ({ appMode }) => {
                   <HeroCarousel slides={isPrive ? PRIVE_SLIDES : REGULAR_SLIDES} isPrive={isPrive} onScrollToCollection={scrollToCollection} />
                   <div id="collection" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 w-full">
                       <div className="text-center mb-12">
-                          <h2 className={`text-4xl font-serif font-bold mb-3 ${isPrive ? 'text-gold-500 italic' : 'text-emerald-900'}`}>{isPrive ? 'The Prive Collection' : 'Jashn-e-Eid Collection ✨'}</h2>
+                          <h2 className={`text-4xl font-serif font-bold mb-3 ${isPrive ? 'text-gold-500 italic' : 'text-gray-900'}`}>{isPrive ? 'The Prive Collection' : 'Our Collection'}</h2>
                           <div className="w-24 h-1 bg-gold-600 mx-auto mb-6"></div>
 
                           {showDownloadBanner && <DownloadAppBanner isPrive={isPrive} onClose={() => { setShowDownloadBanner(false); localStorage.setItem('app_banner_closed', 'true'); }} />}
-
-                          {/* EIDI BUTTON */}
-                          {!localStorage.getItem('ethniq_eidi_reward') && !userData?.eidiReward && (
-                              <div className="mb-8 relative inline-block">
-                                  <div className="absolute inset-0 bg-gold-500 rounded-full animate-ping opacity-20"></div>
-                                  <button onClick={() => setShowEidiModal(true)} className="relative bg-gradient-to-r from-emerald-700 via-green-600 to-emerald-700 text-white px-8 py-3 rounded-full font-bold shadow-[0_0_15px_rgba(16,185,129,0.5)] border-2 border-yellow-400 flex items-center gap-2 mx-auto hover:scale-105 transition hover:shadow-[0_0_25px_rgba(250,204,21,0.6)]">
-                                      <span className="animate-pulse">✨</span> Claim Your Eidi 🎁 <span className="animate-pulse">✨</span>
-                                  </button>
-                              </div>
-                          )}
 
                           <CategoryFilter categories={categories} selectedCategory={selectedCategory} onSelectCategory={handleCategorySelect} isPrive={isPrive} />
 
@@ -2862,7 +2705,7 @@ const BrandStory = ({ appMode }) => {
                               </select>
                           </div>
                       </div>
-                      {loading ? <div className="flex flex-col items-center justify-center py-20"><div className="text-5xl animate-spin drop-shadow-[0_0_15px_rgba(191,161,95,1)] mb-4">🌙</div><div className="text-xs font-bold uppercase tracking-widest text-gold-600 animate-pulse">Loading Magic...</div></div> : filteredProducts.length === 0 ? <div className="text-center py-20 text-gray-500">No products found.</div> : (
+                      {loading ? <div className="flex justify-center py-20"><div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-navy-900"></div></div> : filteredProducts.length === 0 ? <div className="text-center py-20 text-gray-500">No products found.</div> : (
                           <>
                               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
                                   {displayedProducts.map(product => (<ProductCard key={product.id} product={product} onOpen={handleOpenProduct} isPrive={isPrive} onToggleWishlist={toggleWishlist} isWishlisted={wishlist.some(w => w.id === product.id)} />))}
@@ -2876,7 +2719,7 @@ const BrandStory = ({ appMode }) => {
                       )}
                   </div>
                   {!isPrive && <div className="max-w-7xl mx-auto px-4 mb-16"><div className="bg-navy-900 rounded-2xl p-8 md:p-12 text-center text-white"><h2 className="text-3xl font-serif italic mb-4 text-gold-500">Looking for something exclusive?</h2><p className="mb-6 text-gray-300">Explore our premium range of designer wear.</p><button onClick={() => handleViewChange('switch_to_prive')} className="px-8 py-3 border border-gold-500 text-gold-500 hover:bg-gold-500 hover:text-navy-900 transition uppercase tracking-widest text-xs font-bold">Enter Ethniq Privé</button></div></div>}
-                  <EidFestiveBanner isPrive={isPrive} />
+                  <EleganceBanner isPrive={isPrive} />
                   <BrandStory appMode={appMode} />
                   <RecentlyViewedSection products={recentlyViewed} onOpen={handleOpenProduct} isPrive={isPrive} />
                   <ReviewsSection reviews={reviews} appMode={appMode} onWriteReview={() => setIsReviewModalOpen(true)} />
@@ -2963,15 +2806,6 @@ const BrandStory = ({ appMode }) => {
           />
           <LegalModal isOpen={legalModal.isOpen} onClose={() => setLegalModal({ ...legalModal, isOpen: false })} title={legalModal.title} content={legalModal.content} isPrive={isPrive} />
 
-          <EidGreetingModal
-              isOpen={showEidModal}
-              onClose={() => { setShowEidModal(false); sessionStorage.setItem('seen_eid_modal', 'true'); }}
-          />
-          <EidiModal
-              isOpen={showEidiModal}
-              onClose={() => setShowEidiModal(false)}
-              onClaim={handleEidiClaim}
-          />
       </div>
       </PullToRefresh>
     );
